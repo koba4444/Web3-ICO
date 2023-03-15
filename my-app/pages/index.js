@@ -8,6 +8,7 @@ import {
   TOKEN_CONTRACT_ABI,
   TOKEN_CONTRACT_ADDRESS,
 } from "../constants";
+
 import styles from "../styles/Home.module.css";
 
 export default function Home() {
@@ -117,6 +118,7 @@ export default function Home() {
    */
   const mintCryptoDevToken = async (amount) => {
     try {
+      console.log("Beginning");
       // We need a Signer here since this is a 'write' transaction.
       // Create an instance of tokenContract
       const signer = await getProviderOrSigner(true);
@@ -126,6 +128,7 @@ export default function Home() {
         TOKEN_CONTRACT_ABI,
         signer
       );
+
       // Each token is of `0.001 ether`. The value we need to send is `0.001 * amount`
       const value = 0.001 * amount;
       const tx = await tokenContract.mint(amount, {
@@ -133,6 +136,7 @@ export default function Home() {
         // We are parsing `0.001` string to ether using the utils library from ethers.js
         value: utils.parseEther(value.toString()),
       });
+
       setLoading(true);
       // wait for the transaction to get mined
       await tx.wait();
@@ -210,10 +214,12 @@ export default function Home() {
       );
       // call the owner function from the contract
       const _owner = await tokenContract.owner();
+
       // we get signer to extract address of currently connected Metamask account
       const signer = await getProviderOrSigner(true);
       // Get the address associated to signer which is connected to Metamask
       const address = await signer.getAddress();
+
       if (address.toLowerCase() === _owner.toLowerCase()) {
         setIsOwner(true);
       }
@@ -264,6 +270,7 @@ export default function Home() {
     const provider = await web3ModalRef.current.connect();
     const web3Provider = new providers.Web3Provider(provider);
 
+
     // If user is not connected to the Goerli network, let them know and throw an error
     const { chainId } = await web3Provider.getNetwork();
     if (chainId !== 5) {
@@ -272,7 +279,13 @@ export default function Home() {
     }
 
     if (needSigner) {
-      const signer = web3Provider.getSigner();
+
+      const provider1 = new providers.Web3Provider(web3.currentProvider);
+
+      const signer = provider1.getSigner();
+      //const signer = web3Provider.getSigner()
+      //const signer = web3Provider.getSigner();
+
       return signer;
     }
     return web3Provider;
@@ -319,6 +332,7 @@ export default function Home() {
   const renderButton = () => {
     // If we are currently waiting for something, return a loading button
     if (loading) {
+
       return (
         <div>
           <button className={styles.button}>Loading...</button>
@@ -365,22 +379,22 @@ export default function Home() {
   return (
     <div>
       <Head>
-        <title>Crypto Devs</title>
+        <title>Kok Arts</title>
         <meta name="description" content="ICO-Dapp" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <div className={styles.main}>
         <div>
-          <h1 className={styles.title}>Welcome to Crypto Devs ICO!</h1>
+          <h1 className={styles.title}>Welcome to KokArts ICO!</h1>
           <div className={styles.description}>
-            You can claim or mint Crypto Dev tokens here
+            You can claim or mint KokArts tokens here
           </div>
           {walletConnected ? (
             <div>
               <div className={styles.description}>
                 {/* Format Ether helps us in converting a BigNumber to string */}
-                You have minted {utils.formatEther(balanceOfCryptoDevTokens)} Crypto
-                Dev Tokens
+
+                You have minted {utils.formatEther(balanceOfCryptoDevTokens)} KokArts Tokens
               </div>
               <div className={styles.description}>
                 {/* Format Ether helps us in converting a BigNumber to string */}
@@ -388,6 +402,7 @@ export default function Home() {
               </div>
               {renderButton()}
               {/* Display additional withdraw button if connected wallet is owner */}
+
                 {isOwner ? (
                   <div>
                   {loading ? <button className={styles.button}>Loading...</button>
@@ -411,7 +426,7 @@ export default function Home() {
       </div>
 
       <footer className={styles.footer}>
-        Made with &#10084; by Crypto Devs
+        Made with &#10084; by Kok Arts
       </footer>
     </div>
   );
