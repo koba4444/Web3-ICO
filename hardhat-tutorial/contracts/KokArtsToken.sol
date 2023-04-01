@@ -19,7 +19,6 @@
       uint256 public constant maxTotalSupply = 10000 * 10**18;
       // CryptoDevsNFT contract instance
       IKokArts KokArtsNFT;
-        console.log("KokArtsNFT contract instance created");
       // Mapping to keep track of which tokenIds have been claimed
       mapping(uint256 => bool) public tokenIdsClaimed;
 
