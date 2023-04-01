@@ -141,7 +141,7 @@ export default function Home() {
       // wait for the transaction to get mined
       await tx.wait();
       setLoading(false);
-      window.alert("Successfully minted Crypto Dev Tokens");
+      window.alert("Successfully minted KOKT Tokens");
       await getBalanceOfCryptoDevTokens();
       await getTotalTokensMinted();
       await getTokensToBeClaimed();
@@ -164,10 +164,7 @@ export default function Home() {
         TOKEN_CONTRACT_ABI,
         signer
       );
-      console.log(
-        "tokenContract =========:",
-        TOKEN_CONTRACT_ABI
-      );
+
 
 
       const tx = await tokenContract.claim();
